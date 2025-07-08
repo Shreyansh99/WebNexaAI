@@ -6,8 +6,17 @@ import { Badge } from '@/components/ui/badge';
 import { Container } from '@/src/components/ui/container';
 import { Button } from '@/src/components/ui/button';
 
+interface BlogPost {
+  slug: string;
+  tags: string[];
+  date: string;
+  title: string;
+  description?: string;
+  author: string;
+}
+
 interface BlogListProps {
-  allPosts: Array<any>;
+  allPosts: BlogPost[];
   categories: string[];
 }
 
