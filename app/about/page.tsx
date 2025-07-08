@@ -46,22 +46,34 @@ const AboutPage = () => {
         <HeroTitle />
           </header>
           <section aria-label="Who We Are">
-            <AboutSection icon={<Rocket className="h-6 w-6 sm:h-7 sm:w-7" />} title="Who We Are" delay={0.1} />
+            <AboutSection icon={<Rocket className="h-6 w-6 sm:h-7 sm:w-7" />} title="Who We Are" delay={0.1}>
+              <p>Placeholder content for Who We Are section.</p>
+            </AboutSection>
           </section>
           <section aria-label="What Makes Us Different">
-            <AboutSection icon={<Settings className="h-6 w-6 sm:h-7 sm:w-7" />} title="What Makes Us Different" delay={0.2} />
+            <AboutSection icon={<Settings className="h-6 w-6 sm:h-7 sm:w-7" />} title="What Makes Us Different" delay={0.2}>
+              <p>Placeholder content for What Makes Us Different section.</p>
+            </AboutSection>
           </section>
           <section aria-label="What We Build">
-            <AboutSection icon={<Target className="h-6 w-6 sm:h-7 sm:w-7" />} title="What We Build" delay={0.3} />
+            <AboutSection icon={<Target className="h-6 w-6 sm:h-7 sm:w-7" />} title="What We Build" delay={0.3}>
+              <p>Placeholder content for What We Build section.</p>
+            </AboutSection>
           </section>
           <section aria-label="Who We Help">
-            <AboutSection icon={<Users className="h-6 w-6 sm:h-7 sm:w-7" />} title="Who We Help" delay={0.4} />
+            <AboutSection icon={<Users className="h-6 w-6 sm:h-7 sm:w-7" />} title="Who We Help" delay={0.4}>
+              <p>Placeholder content for Who We Help section.</p>
+            </AboutSection>
           </section>
           <section aria-label="Why It Matters">
-            <AboutSection icon={<Lightbulb className="h-6 w-6 sm:h-7 sm:w-7" />} title="Why It Matters" delay={0.5} />
+            <AboutSection icon={<Lightbulb className="h-6 w-6 sm:h-7 sm:w-7" />} title="Why It Matters" delay={0.5}>
+              <p>Placeholder content for Why It Matters section.</p>
+            </AboutSection>
           </section>
           <section aria-label="Built to Scale With You">
-            <AboutSection icon={<Handshake className="h-6 w-6 sm:h-7 sm:w-7" />} title="Built to Scale With You" delay={0.6} />
+            <AboutSection icon={<Handshake className="h-6 w-6 sm:h-7 sm:w-7" />} title="Built to Scale With You" delay={0.6}>
+              <p>Placeholder content for Built to Scale With You section.</p>
+            </AboutSection>
           </section>
           <section aria-label="Call To Action">
             <CallToAction />
