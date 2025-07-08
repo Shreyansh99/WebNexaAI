@@ -29,7 +29,7 @@ interface BlogMeta {
 
 interface BlogPost {
   meta: BlogMeta;
-  Content: React.ComponentType<any>;
+  Content: React.ComponentType<Record<string, unknown>>;
 }
 
 const blogPosts: Record<string, BlogPost> = {
