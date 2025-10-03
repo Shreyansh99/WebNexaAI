@@ -57,7 +57,7 @@ const testimonials = [
     position: "Founder",
     company: "Verma Digital",
     companyLogo: "/images/company/verma-digital-logo.png",
-    profilePhoto: "/images/team/avatar2.png",
+    profilePhoto: "/images/team/avatar1.png",
     services: ["Custom CRM", "Web App"]
   }
 ]

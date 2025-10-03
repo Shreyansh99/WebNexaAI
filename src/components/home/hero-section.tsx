@@ -1,19 +1,44 @@
 "use client"
 
-import { useRef } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
-import * as THREE from "three"
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import Image from "next/image"
+import { useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 
 export default function HeroSection() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.unicorn.studio/v1.6.1/unicornStudio.umd.js";
+    script.async = true;
+    script.onload = () => {
+      if (window.UnicornStudio) {
+        window.UnicornStudio.init();
+      }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
+
   return (
     <section className="relative overflow-hidden py-10 md:py-28 lg:py-32 min-h-[80vh] md:min-h-screen flex items-center justify-center" style={{ minHeight: '80vh' }}>
-      {/* Background image */}
+      {/* UnicornStudio Background Animation */}
+      <div className="absolute inset-0 -z-30">
+        <div
+          className="unicorn-embed w-full h-full"
+          data-us-project="replace-with-your-project-id"
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
+
+      {/* Fallback Background image */}
       <div className="absolute inset-0 -z-20">
         <img
           src="/background.jpg"
@@ -77,7 +102,6 @@ export default function HeroSection() {
                 {/* Avatars */}
                 <div className="flex -space-x-2">
                   <Image src="/images/team/avatar1.png" alt="Team member avatar 1" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white" />
-                  <Image src="/images/team/avatar2.png" alt="Team member avatar 2" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white" />
                   <Image src="/images/team/avatar3.png" alt="Team member avatar 3" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white" />
                   <Image src="/images/team/avatar4.png" alt="Team member avatar 4" width={32} height={32} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white" />
                   <span className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs sm:text-sm font-semibold border-2 border-white">+65</span>
