@@ -10,27 +10,20 @@ import { Button } from "@/src/components/ui/button";
 import { NextSeo } from 'next-seo';
 import { compareDesc } from 'date-fns';
 import Image from "next/image";
+import Script from 'next/script';
 
-// Import all MDX files in the blog directory
-const postModules = import.meta.glob('./*.mdx', { eager: true });
+import { getAllPosts, getAllTags } from './posts';
+const registry = getAllPosts();
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const allPosts = Object.entries(postModules).map(([file, mod]: any) => ({
-  ...(mod.meta || {}),
-  slug: file.replace('./', '').replace('.mdx', ''),
-}));
-
-const categories = [
-  'All',
-  ...Array.from(new Set(allPosts.flatMap((post) => post.tags || []))).filter(Boolean)
-];
+const categories = ['All', ...getAllTags()];
 
 export default function BlogPage() {
   const [filter, setFilter] = useState('All');
   
-  const filteredPosts = filter === 'All' 
-    ? allPosts.sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)))
-    : allPosts.filter(post => (post.tags || []).includes(filter)).sort((a, b) => compareDesc(new Date(a.date), new Date(b.date)));
+  const filteredPosts = (filter === 'All'
+    ? registry
+    : registry.filter((post) => (post.meta.tags || []).includes(filter))
+  ).sort((a, b) => compareDesc(new Date(a.meta.date), new Date(b.meta.date)));
 
   return (
     <>
@@ -103,18 +96,18 @@ export default function BlogPage() {
           {filteredPosts.map((post) => (
               <Card key={post.slug} className="bg-blue-500/5 border border-blue-500/20 shadow-lg hover:bg-blue-500/10 transition-colors duration-300 flex flex-col h-full">
               <CardHeader className="pb-2 flex-row items-center gap-2">
-                  <Badge variant="secondary" className="mb-0 mr-2">{post.tags?.[0]}</Badge>
-                <span className="text-xs text-gray-400">{post.date}</span>
+                  <Badge variant="secondary" className="mb-0 mr-2">{post.meta.tags?.[0]}</Badge>
+                <span className="text-xs text-gray-400">{post.meta.date}</span>
               </CardHeader>
               <CardContent className="flex flex-col flex-1">
-                  <Link href={`/blog/${post.slug}`} className="hover:underline" aria-label={`Read blog post: ${post.title}`}>
+                  <Link href={`/blog/${post.slug}`} className="hover:underline" aria-label={`Read blog post: ${post.meta.title}`}>
                   <CardTitle className="text-lg font-bold text-white mb-2 hover:text-blue-400 transition-colors">
-                    {post.title}
+                    {post.meta.title}
                   </CardTitle>
                 </Link>
-                  <p className="text-gray-300 text-sm mb-4 flex-1">{post.description}</p>
+                  <p className="text-gray-300 text-sm mb-4 flex-1">{post.meta.description}</p>
                   <div className="flex flex-wrap gap-1 mt-auto">
-                    {post.tags?.map((tag) => (
+                    {post.meta.tags?.map((tag) => (
                       <Badge key={tag} variant="outline" className="text-xs mr-1 mb-1">{tag}</Badge>
                     ))}
                   </div>
@@ -142,7 +135,27 @@ export default function BlogPage() {
           <h2 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-3 text-white">Want more insights?</h2>
           <p className="text-base sm:text-lg text-gray-300 px-4">Subscribe to our newsletter for the latest updates, tips, and trends.</p>
         </div>
-        <form className="max-w-xl mx-auto flex flex-col sm:flex-row gap-4 justify-center">
+        <form
+          className="max-w-xl mx-auto flex flex-col sm:flex-row gap-4 justify-center"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const form = e.currentTarget as HTMLFormElement;
+            const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
+            const email = emailInput?.value.trim();
+            if (!email) return;
+            const res = await fetch('/api/newsletter', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email }),
+            });
+            if (res.ok) {
+              emailInput.value = '';
+              alert('Subscribed successfully');
+            } else {
+              alert('Subscription failed');
+            }
+          }}
+        >
           <input
             type="email"
             placeholder="Enter your email"
@@ -160,6 +173,16 @@ export default function BlogPage() {
           <p>Looking for AI solutions for your business? <Link href="/services" className="underline hover:text-blue-400">Explore our AI automation & marketing services</Link> or <Link href="/contact" className="underline hover:text-blue-400">contact us for a free strategy call</Link>.</p>
         </div>
     </main>
+    <Script id="breadcrumb-schema" type="application/ld+json" strategy="afterInteractive">{`
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://webnexaai.com/"},
+          {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://webnexaai.com/blog"}
+        ]
+      }
+    `}</Script>
     </>
   );
 }
