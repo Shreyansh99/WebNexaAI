@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
-const withMDX = require('@next/mdx')({
+import createMDX from '@next/mdx';
+
+const withMDX = createMDX({
   extension: /\.mdx?$/,
   options: {
     // Add remark/rehype plugins here if needed
@@ -16,6 +18,15 @@ const nextConfig: NextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
           },
         ],
       },
