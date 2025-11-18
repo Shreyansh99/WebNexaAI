@@ -1,8 +1,6 @@
 import { metadata } from './metadata';
 import ClientLayout from './client-layout';
 import type { ReactNode } from 'react';
-import { DefaultSeo } from 'next-seo';
-import SEO from '../next-seo.config';
 import Script from 'next/script';
 
 export { metadata };
@@ -15,7 +13,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <DefaultSeo {...SEO} />
         <Script id="org-schema" type="application/ld+json" strategy="afterInteractive">{`
           {
             "@context": "https://schema.org",
